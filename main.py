@@ -1,15 +1,21 @@
-from extract import extract_weather
-from transform import transform_weather
-from load import load_to_csv
+from flask import Flask, request, jsonify
 
-def run_etl():
-    print("Starting ETL Pipeline")
+from pipeline import weather_pipeline
 
-    raw_data = extract_weather()
-    transformed_data = transform_weather(raw_data)
-    load_to_csv(transformed_data)
+app = Flask(__name__)
 
-    print("ETL Pipeline Completed")
+@app.route("/")
+def home():
+    return {"status": "Backend Running"}
+
+@app.route("/weather")
+def weather():
+
+    city = request.args.get("city", "Muscat")
+
+    result = weather_pipeline(city)
+
+    return jsonify(result)
 
 if __name__ == "__main__":
-    run_etl()
+    app.run(host="0.0.0.0", port=5000)

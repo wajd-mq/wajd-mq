@@ -1,13 +1,24 @@
 import pandas as pd
 import os
 
-def load_to_csv(data, filename="output.csv"):
+def load_to_csv(record):
 
     os.makedirs("data", exist_ok=True)
 
-    filepath = os.path.join("data", filename)
+    filepath = "data/weather.csv"
 
-    df = pd.DataFrame([data])
-    df.to_csv(filepath, index=False)
+    df = pd.DataFrame([record])
 
-    print(f"Saved to {filepath}")
+    if os.path.exists(filepath):
+        df.to_csv(
+            filepath,
+            mode="a",
+            header=False,
+            index=False
+        )
+    else:
+        df.to_csv(
+            filepath,
+            index=False
+        )
+

@@ -4,26 +4,17 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-def extract_weather():
+API_KEY = os.getenv("API_KEY")
 
-    CITY = os.getenv("CITY")
-    API_KEY = os.getenv("API_KEY")
-
-    if not CITY or not API_KEY:
-        raise ValueError("Missing CITY or API_KEY")
+def extract_weather(city):
 
     url = (
         f"https://api.openweathermap.org/data/2.5/weather"
-        f"?q={CITY}&appid={API_KEY}&units=metric"
+        f"?q={city}&appid={API_KEY}&units=metric"
     )
 
     response = requests.get(url)
+
     response.raise_for_status()
 
-    data = response.json()
-
-    print("Modified by Wajd")
-
-    return data
-
-  
+    return response.json()
