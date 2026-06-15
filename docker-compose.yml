@@ -1,29 +1,35 @@
 services:
 
-  weather-backend:
-    build: ./backend
-    container_name: weather-backend
-    ports:
-      - "5000:5000"
-    env_file:
-      - .env
-    restart: unless-stopped
-
-  weather-frontend:
-    build: ./frontend
-    container_name: weather-frontend
-    ports:
-      - "8501:8501"
-    environment:
-      BACKEND_URL: http://weather-backend:5000
-    depends_on:
-      - weather-backend
-    restart: unless-stopped
-
-  prefect:
+  prefect-server:
     image: prefecthq/prefect:3-latest
-    container_name: prefect-server
     command: prefect server start --host 0.0.0.0
     ports:
       - "4200:4200"
-    restart: unless-stopped
+
+  worker:
+    image: prefecthq/prefect:3-latest
+    command: prefect worker start --pool default
+    depends_on:
+      - prefect-server
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+
+  mysql:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: gold_db
+    ports:
+      - "3308:3306"
+
+  app:
+    build: .
+    depends_on:
+      - mysql
+      - prefect-server
+    environment:
+      - PREFECT_API_URL=http://prefect-server:4200/api
+    volumes:
+      - ./data:/app/data
+      

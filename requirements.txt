@@ -1,5 +1,4 @@
+prefect
 requests
 pandas
-python-dotenv
-flask
-prefect
+mysql-connector-python
