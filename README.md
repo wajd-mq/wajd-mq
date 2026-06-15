@@ -1,16 +1,44 @@
-## Hi there 👋
+# Telecom ETL Pipeline
 
-<!--
-**wajd-mq/wajd-mq** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## Project Overview
+This project implements an ETL (Extract, Transform, Load) pipeline using Python, Prefect, Docker, and MySQL.
 
-Here are some ideas to get you started:
+The pipeline reads telecom subscription data from a CSV file, performs basic transformations, and loads the cleaned data into a MySQL database.
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+## Dataset
+Telecom Subscriptions Dataset
+
+## Technologies Used
+- Python
+- Pandas
+- Prefect
+- MySQL
+- Docker
+- Docker Compose
+
+## ETL Process
+
+### Extract
+Reads telecom subscription data from CSV file.
+
+### Transform
+- Renames columns
+- Handles missing values
+- Cleans the dataset
+
+### Load
+Loads the transformed data into MySQL database.
+
+## Database
+Database: telecom_db
+
+Table: telecom_data
+
+## Run Project
+
+```bash
+docker compose up --build
+```
+
+## Author
+Wajd A
